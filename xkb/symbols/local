@@ -1,0 +1,11 @@
+default partial alphanumeric_keys
+xkb_symbols "basic" {
+    include "us"
+    include "level3(ralt_switch)"
+
+    name[Group1] = "US/SL";
+    key<AB03> { [c, C, ccaron, Ccaron] };
+    key<AC02> { [s, S, scaron, Scaron] };
+    key<AB01> { [z, Z, zcaron, Zcaron] };
+    key<CAPS> { [ Escape ] };
+};

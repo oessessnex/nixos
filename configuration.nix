@@ -1,15 +1,29 @@
-{ config, pkgs, ... }:
+{config, pkgs, utils, ... }:
 
+let
+   keymap = pkgs.runCommandLocal "keymap" {} ''
+    '${pkgs.ckbcomp}/bin/ckbcomp' \
+    '-I${config.environment.sessionVariables.XKB_CONFIG_EXTRA_PATH}' \
+    -layout local > "$out"
+   '';
+
+in
+with (import ./secrets/variables.nix);
 {
   imports =
     [
+      <home-manager/nixos>
+      ./secrets/wireless-networks.nix
+      ./window-manager.nix
+      ./persist.nix
       ./hardware-configuration.nix
-      ./secret-configuration.nix
     ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/disk/by-id/wwn-0x5002538e09809442";
+
+  time.timeZone = "Europe/Ljubljana";
 
   networking.hostName = "nixos";
   networking.wireless.enable = true;
@@ -20,7 +34,12 @@
     extraPackages = with pkgs; [
       alacritty
       wl-clipboard
+      dmenu
     ];
+  };
+
+  environment.etc = {
+    "sway/config".source = pkgs.writeText "sway-config" (import ./sway.nix);
   };
 
   networking.useDHCP = false;
@@ -28,10 +47,12 @@
   networking.interfaces.wlp13s0.useDHCP = true;
 
   i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
+
+  environment.sessionVariables = {
+    XKB_CONFIG_EXTRA_PATH = "${./xkb}";
+  };
+
+  console.keyMap = keymap;
 
   nix.package = pkgs.nixUnstable;
   nix.extraOptions = ''
@@ -48,14 +69,39 @@
     neededForBoot = true;
   };
 
+  local.persist = {
+    enable = true;
+
+    directories = [
+      "/home/${user}/.mozilla"
+      "/home/${user}/Documents"
+      "/home/${user}/Downloads"
+      "/home/${user}/Development"
+      "/home/${user}/Music"
+      "/home/${user}/Pictures"
+      "/home/${user}/Public"
+      "/home/${user}/Templates"
+      "/home/${user}/Videos"
+    ];
+    files = [
+      "/home/${user}/.bash_history"
+    ];
+  };
+
   users.mutableUsers = false;
+  users.users."${user}" = {
+    isNormalUser = true;
+    extraGroups = ["wheel"];
+    initialPassword = "default";
+  };
+  home-manager.users."${user}" = {
+
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
-  # Enable sound.
   sound.enable = true;
-  # hardware.pulseaudio.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # users.users.jane = {
@@ -79,11 +125,8 @@
   #   enableSSHSupport = true;
   # };
 
-  # List services that you want to enable:
-
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
   system.stateVersion = "21.11";
 }
-
