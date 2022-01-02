@@ -9,8 +9,8 @@ let
     {
       name = "${escaped}";
       value = {
+        description = "Ensure ${target} exists before mounting.";
         serviceConfig.Type = "oneshot";
-
         before = ["${escaped}.mount"];
         wantedBy = ["multi-user.target"];
 
@@ -21,7 +21,7 @@ let
     };
 
   bind = target: {
-    description = "Bind mount ${target}";
+    description = "Bind mount ${target}.";
     what = "/persist/${target}";
     where = "${target}";
     options = "bind";
