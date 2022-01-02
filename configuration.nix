@@ -50,6 +50,7 @@ with (import ./secrets/variables.nix);
 
   environment.sessionVariables = {
     XKB_CONFIG_EXTRA_PATH = "${./xkb}";
+    EDITOR = "nvim";
   };
 
   console.keyMap = keymap;
