@@ -8,9 +8,12 @@ let
     set $up k
     set $right l
     set $term alacritty
-    set $menu dmenu_path | dmenu | xargs swaymsg exec --
+    set $menu fuzzel
 
-    output * bg '/home/user/Pictures/background.png' fill
+    default_border pixel 2
+
+    #output * bg '/home/user/Pictures/background.png' fill
+    output * bg #000000 solid_color
 
     input "1:1:AT_Translated_Set_2_keyboard" {
       xkb_layout local
@@ -89,9 +92,38 @@ let
     }
     bindsym $mod+r mode "resize"
 
+    set $bg #2C363C
+    set $fg #F0EDEC
+    set $br #88507D
+
+    client.focused          $br     $br     $fg     $bg       $br
+    client.focused_inactive $bg     $bg     $fg     $bg       $bg
+    client.unfocused        $bg     $bg     $fg     $bg       $bg
+    client.background $bg
+
+    gaps inner 5
+    #gaps outer 5
+
+    #client.focused          $base05 $base0D $base00 $base0D $base0D
+    #client.focused_inactive $base01 $base01 $base05 $base03 $base01
+    #client.unfocused        $base01 $base00 $base05 $base01 $base01
+    #client.urgent           $base08 $base08 $base00 $base08 $base08
+    #client.placeholder      $base00 $base00 $base05 $base00 $base00
+    #client.background       $base07
+
     bar {
       position top
-      swaybar_command waybar
+
+      status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+
+      colors {
+        statusline $fg
+        background #000000
+        focused_workspace $br #000000 $fg
+        active_workspace  #000000 #000000 $fg
+        urgent_workspace  #000000 #A8334C $fg
+        inactive_workspace #000000 #000000 $fg
+      }
     }
 
     exec "systemctl --user import-environment WAYLAND_DISPLAY"

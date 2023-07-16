@@ -8,6 +8,8 @@
     extraGroups = ["wheel"];
     packages = with pkgs; [
       neovim
+      fuzzel
+      lua-language-server
     ];
     passwordFile = "/nix/secrets/passwd";
   };
@@ -23,8 +25,13 @@
         "Public"
         "Templates"
         "Videos"
+        "Self"
         ".mozilla"
+	".opam"
         ".config/nvim"
+        ".config/fuzzel"
+        ".local/share/Steam"
+        ".ssh"
       ];
 
       files = [

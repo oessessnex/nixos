@@ -9,32 +9,29 @@ let
 
     colors:
       primary:
-        background: '0x24283b'
-        foreground: '0xc0caf5'
-
+        foreground: '#2C363C'
+        background: '#F0EDEC'
+      cursor:
+        cursor: '#2C363C'
+        text: '#F0EDEC'
       normal:
-        black:   '0x1D202F'
-        red:     '0xf7768e'
-        green:   '0x9ece6a'
-        yellow:  '0xe0af68'
-        blue:    '0x7aa2f7'
-        magenta: '0xbb9af7'
-        cyan:    '0x7dcfff'
-        white:   '0xa9b1d6'
-
+        black:   '#F0EDEC'
+        red:     '#A8334C'
+        green:   '#4F6C31'
+        yellow:  '#944927'
+        blue:    '#286486'
+        magenta: '#88507D'
+        cyan:    '#3B8992'
+        white:   '#2C363C'
       bright:
-        black:   '0x414868'
-        red:     '0xf7768e'
-        green:   '0x9ece6a'
-        yellow:  '0xe0af68'
-        blue:    '0x7aa2f7'
-        magenta: '0xbb9af7'
-        cyan:    '0x7dcfff'
-        white:   '0xc0caf5'
-
-      indexed_colors:
-        - { index: 16, color: '0xff9e64' }
-        - { index: 17, color: '0xdb4b4b' }
+        black:   '#CFC1BA'
+        red:     '#94253E'
+        green:   '#3F5A22'
+        yellow:  '#803D1C'
+        blue:    '#1D5573'
+        magenta: '#7B3B70'
+        cyan:    '#2B747C'
+        white:   '#4F5E68'
     '';
 in
 {

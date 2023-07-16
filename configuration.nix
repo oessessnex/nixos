@@ -1,4 +1,4 @@
-{config, pkgs, utils, ... }:
+{config, pkgs, utils, lib, ... }:
 
 {
   imports =
@@ -19,6 +19,11 @@
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/disk/by-id/wwn-0x5002538e09809442";
+
+  fonts.fonts = with pkgs; [
+    lmodern
+    (nerdfonts.override { fonts = ["DroidSansMono"]; })
+  ];
 
   time.timeZone = "Europe/Ljubljana";
 
@@ -59,6 +64,18 @@
   };
 
   services.printing.enable = true;
+
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+  };
+
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-run"
+    "steam-original"
+  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
